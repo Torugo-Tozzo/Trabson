@@ -1,19 +1,6 @@
-#include <iostream>
-#include <string>
+#include "arvores.h"
 
 using namespace std;
-
-template <typename N>
-class Node {
-public:
-    N data;
-    Node *left, *right;
-
-    Node(N data) {
-        this->data = data;
-        left = right = nullptr;
-    }
-};
 
 template <typename N>
 class BST {
@@ -101,29 +88,17 @@ public:
         cout << node->data << " ";
         inOrder(node->right);
     }
-};
 
-int main() {
-    BST<int> bstInt;
-
-    bstInt.insert(10);
-    bstInt.insert(5);
-    bstInt.insert(15);
-    bstInt.insert(3);
-    bstInt.insert(7);
-
-    cout << "Pre-order (int): ";
-    bstInt.preOrder();
-    cout << endl;
-
-    BST<string> bstString;
-
-    bstString.insert("dog");
-    bstString.insert("alpha");
-    bstString.insert("zumzi");
-    bstString.insert("dragon");
-    bstString.insert("dromedario");
-    bstString.insert("puta ao q o pariu ao qadrado");
-
-    bstString.preOrder();
+    void printTree(Node<N> *node, int level) {
+    if (!node) {
+        return;
+    }
+    printTree(node->right, level + 1);
+    for (int i = 0; i < level; i++) {
+        cout << "    ";
+    }
+    cout << node->data << endl;
+    printTree(node->left, level + 1);
 }
+
+};
