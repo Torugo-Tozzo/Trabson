@@ -20,14 +20,14 @@ typedef struct veiculo {
     string modelo;
     string marca;
     string tipo;
-    string ano;
-    string km;
-    string potencia_do_motor;
+    int ano;
+    int km;
+    float potencia_do_motor;
     string combustivel;
     string cambio;
     string direcao;
     string cor;
-    string portas;
+    int portas;
     string placa; 
     float valor;
 }veiculo;
