@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <valarray> 
+#include <string>
 
 #include "lista.h"
 #include "pilha.h"
@@ -217,15 +218,15 @@ no * insere_user(tLista * ptlista){
         
          // Opções para otimizar as funções de fila.
         cout << " Informe o câmbio ([1] Manual / [2] Automático): ";
-        int opc;
+        string opc;
         cin >> opc;
-        while(opc != 1 && opc != 2){
+        while(opc != "1" && opc != "2"){
             cout << " Opção inválida! \n";
             cout << " Informe o câmbio ([1] Manual / [2] Automático): ";
             cin >> opc;
         }
         // Switch Case para definir qual das opções o câmbio vai receber.
-        switch (opc){
+        switch (stoi(opc)){
             case 1:
                 novo->cambio = "Manual";
             break;
@@ -234,19 +235,17 @@ no * insere_user(tLista * ptlista){
             break;
                 
         }
-       
-        
         // Opções para otimizar as funções de pilha.
         cout << " Informe a direção ([1] Hidráulica / [2] Elétrica): ";
-        int opd;
+        string opd;
         cin >> opd;
-        while(opd != 1 && opd != 2){
+        while(opd != "1" && opd != "2"){
             cout << " Opção inválida! \n";
             cout << " Informe a direção ([1] Hidráulica / [2] Elétrica): ";
             cin >> opd;
         }
         // Switch Case para definir qual das opções a direção vai receber.
-        switch (opd){
+        switch (stoi(opd)){
             case 1:
                 novo->direcao = "Hidráulica";
             break;
