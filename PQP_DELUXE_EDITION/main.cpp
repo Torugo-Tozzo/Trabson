@@ -4,21 +4,27 @@
  *   Leandro Cesar de Souza Filho - RA: 2022.1.08.011
  *   Nicole Lima - RA: 2022.1.08.028
  * 
+ * 
  *OBS: Em caso de erro "0 0 0" na escrita no final do arquivo ou de linha faltando,
  *decrementar ou comentar o decrementamento da variável tam na linha 338.
+ *
+ * Dromedário
  */
-
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <valarray> 
 #include <string>
 #include <cmath>
-
+//trabalinho fofinho 2
 #include "pilha.h"
 #include "fila.h"
 #include "lista.cpp"
 #include "lista.h"
+//trabalhinho meigo 3
+#include "arvore.h"
+#include "binaria.cpp"
+#include "avl.cpp"
 
 using namespace std;
 
@@ -63,11 +69,9 @@ int main(int argc, char** argv){
     
     leitura_arquivo(BD);
 
-//test area
-
-    cout << "ok?" << endl;
-    int okay;
-    cin >> okay;
+    Arv* avl = nullptr;
+    Arv* binaria = nullptr;
+    Arv* filtro = nullptr;
     
     cout << "\n Bem-vindo ao Gerenciador de Busca de Veículos 2.0!" << endl;
         
@@ -79,6 +83,7 @@ int main(int argc, char** argv){
                     " [4] - Fila de veículos\n "
                     " [5] - Relatório da lista principal ordenada por placa\n "
                     " [6] - Relatório geral da lista principal\n "
+                    " [7] - Arvores\n "
                     " [0] - Sair\n Escolha uma opção: ";
             cin >> opm;          
             switch (opm){
@@ -157,6 +162,27 @@ int main(int argc, char** argv){
                 imprime(BD);
                 cout <<"\n---------------------------------------------------------------------------------------------------" << endl;
                 break;
+            
+            case 7:
+                cout << " [1] - Moste a Arvore Binaria em Pre-Ordem\n "
+                        " [2] - Moste a Arvore AVL em Pre-Ordem\n "
+                        " [3] - Moste a Arvore com filtro em Pre-Ordem\n " << endl;
+                int arv_ans;
+                cin >> arv_ans;
+                switch (arv_ans){
+                case 1:
+                    geraArvBinaria(binaria, BD);
+                break;
+                    
+                case 2:
+                    geraArvAVL(avl,BD);
+                break;
+
+                case 3:
+                    geraArvFiltro(filtro, BD);                   
+                break;
+                }
+            break;
             //Sair
             case 0:
                 cout << "\n Bye-bye!";

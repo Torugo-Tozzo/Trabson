@@ -1,0 +1,2 @@
+- inserir nó na arvore
+- excluir um nó da arvore (placa).
