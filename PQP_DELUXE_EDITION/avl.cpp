@@ -168,6 +168,7 @@ Arv* geraArvAVL(Arv* raiz, tLista *BD){
         doberman = doberman->prox;
     }
    preOrdem(raiz);
+   return 0;
 }
 
 Arv* geraArvFiltro(Arv* raiz, tLista *BD){
