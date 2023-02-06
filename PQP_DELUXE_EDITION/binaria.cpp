@@ -3,15 +3,15 @@
 
 using namespace std;
 
-Arv* inserir(Arv* raiz, std::string valor) {
+Arv* inserir(Arv* raiz, veiculo *veiculo) {
   if (raiz == nullptr) {
     raiz = new Arv;
-    raiz->valor = valor;
+    raiz->carro = veiculo;
     raiz->esq = raiz->dir = nullptr;
-  } else if (valor < raiz->valor) {
-    raiz->esq = inserir(raiz->esq, valor);
+  } else if (veiculo->placa < raiz->carro->placa) {
+    raiz->esq = inserir(raiz->esq, veiculo);
   } else {
-    raiz->dir = inserir(raiz->dir, valor);
+    raiz->dir = inserir(raiz->dir, veiculo);
   }
   return raiz;
 }
@@ -23,40 +23,42 @@ Arv* procurarMenor(Arv* raiz) {
   return raiz;
 }
 
-Arv* remover(Arv* raiz, string valor) {
-  if (raiz == nullptr) {
-    return raiz;
-  } else if (valor < raiz->valor) {
-    raiz->esq = remover(raiz->esq, valor);
-  } else if (valor > raiz->valor) {
-    raiz->dir = remover(raiz->dir, valor);
+Arv* remover(Arv* raiz, string placa) {
+  if (raiz == NULL) {
+    return NULL;
+  } else if (placa < raiz->carro->placa) {
+    raiz->esq = remover(raiz->esq, placa);
+  } else if (placa > raiz->carro->placa) {
+    raiz->dir = remover(raiz->dir, placa);
   } else {
-    if (raiz->esq == nullptr && raiz->dir == nullptr) {
+    if (raiz->esq == NULL && raiz->dir == NULL) {
       delete raiz;
-      raiz = nullptr;
-    } else if (raiz->esq == nullptr) {
-      Arv* temp = raiz;
-      raiz = raiz->dir;
-      delete temp;
-    } else if (raiz->dir == nullptr) {
-      Arv* temp = raiz;
-      raiz = raiz->esq;
-      delete temp;
+      return NULL;
+    } else if (raiz->esq == NULL) {
+      Arv* temp = raiz->dir;
+      delete raiz;
+      return temp;
+    } else if (raiz->dir == NULL) {
+      Arv* temp = raiz->esq;
+      delete raiz;
+      return temp;
     } else {
       Arv* temp = procurarMenor(raiz->dir);
-      raiz->valor = temp->valor;
-      raiz->dir = remover(raiz->dir, temp->valor);
+      raiz->carro = temp->carro;
+      raiz->dir = remover(raiz->dir, temp->carro->placa);
+      return raiz;
     }
   }
   return raiz;
 }
+
 
 void emOrdem(Arv* raiz) {
   if (raiz == nullptr) {
     return;
   }
   emOrdem(raiz->esq);
-  cout << raiz->valor << " ";
+  cout << raiz->carro->placa << " ";
   emOrdem(raiz->dir);
 }
 
@@ -64,7 +66,7 @@ void preOrdem(Arv* raiz) {
   if (raiz == nullptr) {
     return;
   }
-  cout << raiz->valor << " ";
+  cout << raiz->carro->placa << " ";
   preOrdem(raiz->esq);
   preOrdem(raiz->dir);
 }
@@ -75,16 +77,5 @@ void posOrdem(Arv* raiz) {
   }
   posOrdem(raiz->esq);
   posOrdem(raiz->dir);
-  cout << raiz->valor << " ";
-}
-
-Arv* geraArvBinaria(Arv* raiz, tLista *BD){
-    no * doberman = BD->lista;
-    while (doberman != NULL)
-    {
-        raiz = inserir(raiz, doberman->v->placa);
-        doberman = doberman->prox;
-    }
-    preOrdem(raiz);
-    return 0;
+  cout << raiz->carro->placa << " ";
 }

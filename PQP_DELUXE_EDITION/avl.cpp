@@ -15,13 +15,12 @@ int fatorBalanco(Arv* raiz) {
   return altura(raiz->esq) - altura(raiz->dir);
 }
 
-Arv* novoNo(string valor) {
-  Arv* novo = new Arv();
-  novo->valor = valor;
-  novo->altura = 1;
-  novo->esq = nullptr;
-  novo->dir = nullptr;
-  return novo;
+Arv* novoNo(veiculo* carrim) {
+Arv* novoNo = new Arv;
+novoNo->carro = carrim;
+novoNo->altura = 1;
+novoNo->esq = novoNo->dir = nullptr;
+return novoNo;
 }
 
 Arv* rotacaoEsq(Arv* raiz) {
@@ -60,44 +59,44 @@ Arv* rotacaoDirEsq(Arv* raiz) {
   return rotacaoEsq(raiz);
 }
 
-Arv* inserirAVL(Arv* raiz, string valor) {
-  if (!raiz) {
-    Arv* novo = new Arv();
-    novo->valor = valor;
-    novo->altura = 1;
-    novo->esq = novo->dir = nullptr;
-    return novo;
-  }
-  
-  if (valor < raiz->valor) {
-    raiz->esq = inserirAVL(raiz->esq, valor);
-  } else if (valor > raiz->valor) {
-    raiz->dir = inserirAVL(raiz->dir, valor);
-  } else {
-    return raiz;
-  }
-  
-  raiz->altura = max(altura(raiz->esq), altura(raiz->dir)) + 1;
-  
-  int fb = fatorBalanco(raiz);
-  
-  if (fb > 1 && valor < raiz->esq->valor) {
-    return rotacaoDir(raiz);
-  }
-  
-  if (fb < -1 && valor > raiz->dir->valor) {
-    return rotacaoEsq(raiz);
-  }
-  
-  if (fb > 1 && valor > raiz->esq->valor) {
-    return rotacaoEsqDir(raiz);
-  }
-  
-  if (fb < -1 && valor < raiz->dir->valor) {
-    return rotacaoDirEsq(raiz);
-  }
-  
-  return raiz;
+Arv* inserirAVL(Arv* raiz, veiculo* car) {
+if (raiz == NULL) { // Se a raiz estiver vazia, cria um novo nó
+Arv* novo = new Arv();
+novo->carro = car;
+novo->altura = 1;
+novo->esq = NULL;
+novo->dir = NULL;
+return novo;
+} else if (car->placa < raiz->carro->placa) { // Se o carro for menor, insere à esquerda
+raiz->esq = inserirAVL(raiz->esq, car);
+} else if (car->placa > raiz->carro->placa) { // Se o carro for maior, insere à direita
+raiz->dir = inserirAVL(raiz->dir, car);
+} else { // Se o carro já existir, retorna a raiz sem modificações
+return raiz;
+}
+
+// Atualiza a altura da raiz
+raiz->altura = 1 + max(altura(raiz->esq), altura(raiz->dir));
+
+// Verifica se a raiz está desequilibrada e corrige se necessário
+int fatorBalanceamento = fatorBalanco(raiz);
+if (fatorBalanceamento > 1 && car->placa < raiz->esq->carro->placa) {
+return rotacaoDir(raiz);
+}
+if (fatorBalanceamento < -1 && car->placa > raiz->dir->carro->placa) {
+return rotacaoEsq(raiz);
+}
+if (fatorBalanceamento > 1 && car->placa > raiz->esq->carro->placa) {
+raiz->esq = rotacaoEsq(raiz->esq);
+return rotacaoDir(raiz);
+}
+if (fatorBalanceamento < -1 && car->placa < raiz->dir->carro->placa) {
+raiz->dir = rotacaoDir(raiz->dir);
+return rotacaoEsq(raiz);
+}
+
+// Retorna a raiz
+return raiz;
 }
 
 Arv* minimo(Arv* raiz) {
@@ -107,14 +106,14 @@ Arv* minimo(Arv* raiz) {
   return raiz;
 }
 
-Arv* excluirAVL(Arv* raiz, std::string valor) {
+Arv* excluirAVL(Arv* raiz, string valor) {
   if (!raiz) {
     return nullptr;
   }
   
-  if (valor < raiz->valor) {
+  if (valor < raiz->carro->placa) {
     raiz->esq = excluirAVL(raiz->esq, valor);
-  } else if (valor > raiz->valor) {
+  } else if (valor > raiz->carro->placa) {
     raiz->dir = excluirAVL(raiz->dir, valor);
   } else {
     if (!raiz->esq || !raiz->dir) {
@@ -128,8 +127,8 @@ Arv* excluirAVL(Arv* raiz, std::string valor) {
       delete filho;
     } else {
       Arv* sucessor = minimo(raiz->dir);
-      raiz->valor = sucessor->valor;
-      raiz->dir = excluirAVL(raiz->dir, sucessor->valor);
+      raiz->carro->placa = sucessor->carro->placa;
+      raiz->dir = excluirAVL(raiz->dir, sucessor->carro->placa);
     }
   }
   
@@ -158,29 +157,4 @@ Arv* excluirAVL(Arv* raiz, std::string valor) {
   }
   
   return raiz;
-}
-
-Arv* geraArvAVL(Arv* raiz, tLista *BD){
-    no * doberman = BD->lista;
-    while (doberman != NULL)
-    {
-        raiz = inserirAVL(raiz, doberman->v->placa);
-        doberman = doberman->prox;
-    }
-   preOrdem(raiz);
-   return 0;
-}
-
-Arv* geraArvFiltro(Arv* raiz, tLista *BD){
-    no * doberman = BD->lista;
-    cout << " \nFiltro de carros com cambio automatico e direção eletrica" << endl;
-    while (doberman != NULL)
-    {
-        if(doberman->v->cambio == "Automático" && doberman->v->direcao == "Elétrica"){
-          raiz = inserirAVL(raiz, doberman->v->placa);
-        }
-        doberman = doberman->prox;
-    }
-    preOrdem(raiz);
-    return 0;
 }

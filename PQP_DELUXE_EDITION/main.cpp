@@ -58,21 +58,50 @@ void fila(tLista *BDfila, no *BD){
     cout << "\n----------------------------------------" << endl;
 };
 
-
 int main(int argc, char** argv){
     int opm;
     string placa;
+    string jorge;
     BD = inicia_lista();
     BD2 = inicia_lista();
     BDpilha = inicia_lista();
     BDfila = inicia_lista();
     
     leitura_arquivo(BD);
-
-    Arv* avl = nullptr;
-    Arv* binaria = nullptr;
-    Arv* filtro = nullptr;
     
+    //cria a arv avl
+    Arv* avl = nullptr;
+    no * doberman = BD->lista;
+    while (doberman != NULL)
+    {
+        //veiculo *nvcl = new veiculo;
+        avl = inserirAVL(avl, doberman->v);
+        doberman = doberman->prox;
+    }
+
+    //cria a arv binaria
+    Arv* binaria = nullptr;
+    doberman = BD->lista;
+    while (doberman != NULL)
+    {
+        //veiculo *nvcl = new veiculo;
+        binaria = inserir(binaria, doberman->v);
+        doberman = doberman->prox;
+    }
+
+    //cria a arvore com filtro
+    Arv* filtro = nullptr;
+    doberman = BD->lista;
+    cout << " \nFiltro de carros com cambio automatico e direção eletrica" << endl;
+    while (doberman != NULL)
+    {
+        if(doberman->v->cambio == "Automático" && doberman->v->direcao == "Elétrica"){
+          //veiculo *nvcl = new veiculo;
+          filtro = inserirAVL(filtro, doberman->v);
+        }
+        doberman = doberman->prox;
+    }
+   
     cout << "\n Bem-vindo ao Gerenciador de Busca de Veículos 2.0!" << endl;
         
         //Switch Case para o Menu que ocorre até o usuário digitar 0;
@@ -164,23 +193,41 @@ int main(int argc, char** argv){
                 break;
             
             case 7:
-                cout << " [1] - Moste a Arvore Binaria em Pre-Ordem\n "
+                cout << " [0] - Para excluir um veiculo das arvores\n "
+                        " [1] - Moste a Arvore Binaria em Pre-Ordem\n "
                         " [2] - Moste a Arvore AVL em Pre-Ordem\n "
-                        " [3] - Moste a Arvore com filtro em Pre-Ordem\n " << endl;
+                        " [3] - Moste a Arvore com filtro em Pre-Ordem\n " 
+                        " [4] - Para adicionar um veiculo nas arvores\n "<< endl;
                 int arv_ans;
                 cin >> arv_ans;
                 switch (arv_ans){
+                    case 0:
+                    cout << "placa do nó a ser excluido: ";
+                    cin >> jorge;
+                    excluirAVL(avl, jorge);
+                    remover(binaria, jorge);
+                    excluirAVL(filtro, jorge);
+                    break;
+
                 case 1:
-                    geraArvBinaria(binaria, BD);
+                    preOrdem(binaria);
                 break;
                     
                 case 2:
-                    geraArvAVL(avl,BD);
+                    preOrdem(avl);
                 break;
 
                 case 3:
-                    geraArvFiltro(filtro, BD);                   
+                    preOrdem(filtro);                
                 break;
+
+                case 4:
+                    no* ponti = insere_user(BD);
+                    inserir(binaria,ponti->v);
+                    inserirAVL(avl, ponti->v);
+                    inserirAVL(filtro, ponti->v);
+                break;
+
                 }
             break;
             //Sair
