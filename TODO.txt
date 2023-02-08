@@ -1,0 +1,9 @@
+-  filtro na avl e binaria (cambio e direcao).
+
+- colocar o nivel dos nós da arvore
+
+- limpar fila / pilha .hs
+
+- netbeans
+
+- 
