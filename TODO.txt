@@ -1,6 +1,6 @@
--  filtro na avl e binaria (cambio e direcao).
+-  filtro na avl e binaria (cambio e direcao). (done)
 
-- colocar o nivel dos nós da arvore
+- colocar o nivel dos nós da arvore (done)
 
 - limpar fila / pilha .hs (done)
 
