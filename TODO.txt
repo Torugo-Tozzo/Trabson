@@ -2,8 +2,8 @@
 
 - colocar o nivel dos nós da arvore
 
-- limpar fila / pilha .hs
+- limpar fila / pilha .hs (done)
 
-- netbeans
+- netbeans (done)
 
 - 
